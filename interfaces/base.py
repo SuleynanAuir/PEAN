@@ -92,18 +92,13 @@ class TextBase(object):
         cfg = self.config.TRAIN
         assert isinstance(cfg.VAL.val_data_dir, list)
         dataset_list = []
+        loader_list = []
         for data_dir_ in cfg.VAL.val_data_dir:
-            val_dataset, _ = self.get_test_data(data_dir_)
+            val_dataset, val_loader = self.get_test_data(data_dir_)
             dataset_list.append(val_dataset)
-            test_dataset = dataset.ConcatDataset(dataset_list)
-
-        test_loader = torch.utils.data.DataLoader(
-            test_dataset, batch_size=self.batch_size,
-            shuffle=True, num_workers=int(cfg.workers), pin_memory=True,
-            collate_fn=self.align_collate_val(imgH=cfg.height, imgW=cfg.width, down_sample_scale=cfg.down_sample_scale,
-                                          mask=self.mask),
-            drop_last=False)
-        return dataset_list, test_loader
+            loader_list.append(val_loader)
+        
+        return dataset_list, loader_list
 
     def get_test_data(self, dir_):
 
@@ -186,7 +181,9 @@ class TextBase(object):
             if not os.path.exists(out_path):
                 os.mkdir(out_path)
             im_name = pred_str_lr[i] + '_' + pred_str_sr[i] + '_' + label_strs[i] + '_.png'
-            im_name = im_name.replace('/', '')
+            # Remove invalid characters for Windows filenames
+            for char in ['/', '\\', ':', '*', '?', '"', '<', '>', '|']:
+                im_name = im_name.replace(char, '')
             torchvision.utils.save_image(vis_im, os.path.join(out_path, im_name), padding=0)
 
     def test_display(self, image_in, image_out, image_target, pred_str_lr, pred_str_sr, label_strs, str_filt, out_root):

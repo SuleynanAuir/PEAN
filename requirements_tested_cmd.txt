@@ -1,0 +1,18 @@
+# 1. 创建环境
+conda create -n pean python=3.8 -y
+conda activate pean
+
+# 2. 配置镜像源
+
+# 官网下的不知道啥原因老是超时，改用阿里云镜像源
+# 很离谱，总是超时，文件依赖项出现冲突
+pip config set global.index-url http://mirrors.aliyun.com/pypi/simple/
+
+# 3. 安装PyTorch
+pip install torch==1.10.1+cu113 torchvision==0.11.2+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+
+# 4. 降级pip
+python -m pip install pip==23.3.2
+
+# 5. 安装其他依赖
+pip install --index-url http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com -r requirements_tested.txt

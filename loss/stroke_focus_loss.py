@@ -33,9 +33,15 @@ class StrokeFocusLoss(nn.Module):
         self.build_up_transformer()
 
     def build_up_transformer(self):
+        import os
         transformer = Transformer().cuda()
         transformer = nn.DataParallel(transformer, device_ids=[0])
-        transformer.load_state_dict(torch.load('./pretrain_transformer_stroke_decomposition.pth'))
+        
+        # Only load pretrained weights if the file exists (for training)
+        # For testing, we don't need this transformer
+        if os.path.exists('./pretrain_transformer_stroke_decomposition.pth'):
+            transformer.load_state_dict(torch.load('./pretrain_transformer_stroke_decomposition.pth'))
+        
         transformer.eval()
         for p in transformer.parameters():
             p.requires_grad = False

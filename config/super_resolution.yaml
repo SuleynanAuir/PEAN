@@ -3,8 +3,8 @@ MODEL:
 
 TRAIN:
   train_data_dir: [
-    '/root/dataset/TextZoom/train1',
-    '/root/dataset/TextZoom/train2'
+    'C:/Users/Aiur/PEAN/data/TextZoom/train1',
+    'C:/Users/Aiur/PEAN/data/TextZoom/train2'
   ]
   batch_size: 512
   width: 128
@@ -29,17 +29,17 @@ TRAIN:
 
   VAL:
     val_data_dir: [
-      '/root/dataset/TextZoom/test/easy',
-      '/root/dataset/TextZoom/test/medium',
-      '/root/dataset/TextZoom/test/hard'
+      'C:/Users/Aiur/PEAN/data/TextZoom/test/easy',
+      'C:/Users/Aiur/PEAN/data/TextZoom/test/medium',
+      'C:/Users/Aiur/PEAN/data/TextZoom/test/hard'
     ]
     n_vis: 10
     vis_dir: './vis'
     valInterval: 320
-    rec_pretrained: '/root/recognizers/aster.pth.tar'
-    moran_pretrained: '/root/recognizers/moran.pth'
-    crnn_pretrained: '/root/recognizers/crnn.pth'
-    parseq_pretrained: '/root/recognizers/parseq.pt'
+    rec_pretrained: 'C:/Users/Aiur/PEAN/recognizers/aster.pth.tar'
+    moran_pretrained: 'C:/Users/Aiur/PEAN/recognizers/moran.pth'
+    crnn_pretrained: 'C:/Users/Aiur/PEAN/recognizers/crnn.pth'
+    parseq_pretrained: 'C:/Users/Aiur/PEAN/recognizers/parseq.pt'
 
 TEST:
   checkpoint: ''
